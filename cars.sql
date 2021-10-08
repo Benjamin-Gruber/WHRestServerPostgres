@@ -149,7 +149,7 @@ INSERT INTO public.owner (id, first_name, last_name) VALUES (10, 'Max', 'Blam');
 -- Name: cars_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cars_id_seq', 3, true);
+SELECT pg_catalog.setval('public.cars_id_seq', 9, true);
 
 
 --
