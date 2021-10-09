@@ -5,8 +5,12 @@ const getCars = asyncHandler(async (req, res) => res.status(200).json(await mode
 const deleteCar = asyncHandler(async (req, res) =>
   res.status(200).json(await model.deleteCar(req.params.id)),
 );
+const changeStatusCar = asyncHandler(async (req, res) =>
+  res.status(200).json(await model.changeStatusCar(req.params.id, req.body)),
+);
 
 module.exports = {
   getCars,
   deleteCar,
+  changeStatusCar,
 };
