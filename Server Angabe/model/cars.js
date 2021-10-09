@@ -1,7 +1,20 @@
 const db = require('../db');
 
 const getCars = () => db.query('SELECT * FROM cars ORDER BY id');
-const deleteCar = (id) => db.query('DELETE FROM cars WHERE id = $1', [id]);
+
+async function deleteCar(id) {
+  const { rows } = await db.query('DELETE FROM cars WHERE id = $1', [id]);
+  if (rows.lenght > 0) {
+    return {
+      code: 200,
+      data: 'Delted',
+    };
+  }
+  return {
+    code: 404,
+    data: `${id} was not found in the database`,
+  };
+}
 
 async function changeStatusCar(id, s) {
   const newStatus = s.status;
