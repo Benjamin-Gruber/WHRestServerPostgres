@@ -17,12 +17,19 @@ async function deleteCar(id) {
 }
 
 async function changeStatusCar(id, s) {
-  const newStatus = s.status;
-  await db.query('UPDATE cars SET status = $1 WHERE id = $2', [newStatus, id]);
-  return {
-    code: 200,
-    data: `Updated to ${newStatus}`,
-  };
+  try {
+    const newStatus = s.status;
+    await db.query('UPDATE cars SET status = $1 WHERE id = $2', [newStatus, id]);
+    return {
+      code: 200,
+      data: `Updated to ${newStatus}`,
+    };
+  } catch (error) {
+    return {
+      code: 500,
+      data: `Car could not be updated. Error ${error.message}`,
+    };
+  }
 }
 
 async function getOwnerID(o) {
