@@ -48,19 +48,26 @@ async function getOwnerID(o) {
 }
 
 async function addCar(c) {
-  const { rows } = await db.query('SELECT MAX(id) AS max FROM cars');
-  const newId = rows[0].max + 1;
-  const owner = await getOwnerID(c.owner);
+  try {
+    const { rows } = await db.query('SELECT MAX(id) AS max FROM cars');
+    const newId = rows[0].max + 1;
+    const owner = await getOwnerID(c.owner);
 
-  await db.query(
-    `INSERT INTO cars (id, title, image, status, price, miles, year_of_make, description, owner)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-    [newId, c.title, c.image, c.status, c.price, c.miles, c.year_of_make, c.description, owner],
-  );
-  return {
-    code: 200,
-    data: `Inserted ${newId}`,
-  };
+    await db.query(
+      `INSERT INTO cars (id, title, image, status, price, miles, year_of_make, description, owner)
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [newId, c.title, c.image, c.status, c.price, c.miles, c.year_of_make, c.description, owner],
+    );
+    return {
+      code: 200,
+      data: `Inserted ${newId}`,
+    };
+  } catch (error) {
+    return {
+      code: 500,
+      data: `Car could not be added. Error ${error.message}`,
+    };
+  }
 }
 
 module.exports = {
