@@ -18,6 +18,13 @@ async function deleteCar(id) {
 
 async function changeStatusCar(id, s) {
   try {
+    const { rows } = await db.query('SELECT * FROM cars where id = $1', [id]);
+    if (rows[0] === undefined) {
+      return {
+        code: 404,
+        data: 'Car not found',
+      };
+    }
     const newStatus = s.status;
     await db.query('UPDATE cars SET status = $1 WHERE id = $2', [newStatus, id]);
     return {
